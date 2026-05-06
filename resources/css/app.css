@@ -436,45 +436,75 @@
 
   .stat-card {
     background: white;
-    border-radius: 24px;
-    padding: 21px;
-    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
-    border: 1px solid;
+    border-radius: 12px;
+    padding: 14px 18px;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.06), 0px 1px 2px 0px rgba(0, 0, 0, 0.04);
+    border: none;
+    border-top: 3px solid transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 90px;
   }
 
   .stat-card.blue {
-    border-color: #0457ff;
+    border-top-color: #0457ff;
   }
 
   .stat-card.orange {
-    border-color: #f54900;
+    border-top-color: #f54900;
   }
 
   .stat-card.purple {
-    border-color: #7f22fe;
+    border-top-color: #7f22fe;
   }
 
   .stat-card.green {
-    border-color: #099;
+    border-top-color: #039;
   }
 
   .stat-label {
-    font-weight: 700;
-    font-size: 11px;
-    line-height: 16.5px;
-    letter-spacing: 0.55px;
-    text-transform: uppercase;
-    color: #6a7282;
-    margin-bottom: 48px;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 18px;
+    letter-spacing: 0.2px;
+    color: #374151;
+    margin: 0;
+    text-transform: none;
   }
 
   .stat-value {
     font-weight: 700;
     font-size: 24px;
-    line-height: 32px;
+    line-height: 28px;
     color: #101828;
     text-align: right;
+    align-self: flex-end;
   }
+
+  .stat-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .stat-icon {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(127,34,254,0.08);
+    color: #7f22fe;
+    flex-shrink: 0;
+  }
+
+  .stat-card.stat-purple .stat-icon { background: rgba(127,34,254,0.08); color: #7f22fe; }
+  .stat-card.stat-green .stat-icon { background: rgba(3,201,169,0.06); color: #039; }
+  .stat-card.stat-blue .stat-icon { background: rgba(4,87,255,0.06); color: #0457ff; }
+  .stat-card.stat-orange .stat-icon { background: rgba(245,73,0,0.06); color: #f54900; }
 
   /* Task List Container */
   .task-list-container {
@@ -955,7 +985,6 @@
   .pagination .active span {
     background-color: #8e51ff;
     color: white;
-    border-color: #8e51ff;
     font-weight: 600;
   }
 
@@ -1402,63 +1431,53 @@
   color: #6a7282;
 }
 
-/* PAGINATION */
+/* Pagination */
 .pagination {
   display: flex;
-  gap: 8px;
-  margin-top: 20px;
   justify-content: center;
-  flex-wrap: wrap;
-}
-
-.pagination a,
-.pagination span {
-  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  text-decoration: none;
-  color: #6a7282;
+  gap: 0.25rem;
+  margin-top: 1.5rem;
+  background: transparent;
+  border-radius: 0;
+  padding: 0.75rem 0;
+  box-shadow: none;
+}
+
+.pagination button {
+  padding: 0.4rem 0.7rem;
+  border-radius: 0.375rem;
+  border: none;
+  background: #faf5ff;
+  color: #140937;
+  cursor: pointer;
   transition: all 0.2s;
-  min-height: auto;
-  height: auto;
-  font-size: 14px;
-  line-height: 1.4;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.2;
+  min-width: fit-content;
 }
 
-.pagination a:hover {
-  border-color: #8e51ff;
-  color: #8e51ff;
-  background-color: #f9f5ff;
-}
-
-.pagination .active {
-  background-color: #8e51ff;
-  border-color: #8e51ff;
+.pagination button:hover:not(:disabled) {
+  background: #8e51ff;
   color: white;
-  font-weight: 600;
 }
 
-.pagination .active:hover {
-  background-color: #7a3ee8;
-  border-color: #7a3ee8;
+.pagination button.active {
+  background: #140937;
+  color: white;
+  font-weight: 400;
 }
 
-.pagination .disabled {
-  color: #d1d5db;
+.pagination button:disabled {
+  opacity: 0.4;
   cursor: not-allowed;
-  opacity: 0.5;
+  color: #999;
 }
 
-.pagination svg {
-  width: 14px;
-  height: 14px;
-  display: inline;
-  margin: 0;
-  vertical-align: middle;
-  flex-shrink: 0;
+.pagination .page-icon {
+  width: 16px;
+  height: 16px;
 }
 
 /* TASK DETAILS LAYOUT */

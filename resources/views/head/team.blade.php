@@ -34,6 +34,6 @@
             </table>
         </div>
 
-        {{ $team->onEachSide(1)->links('pagination::tailwind') }}
+        {{ $team->onEachSide(1)->links('pagination::custom') }}
     </div>
 @endsection

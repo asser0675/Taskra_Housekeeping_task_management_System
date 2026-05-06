@@ -11,20 +11,20 @@
 
             <label class="form-group">
                 <span>Name</span>
-                <input type="text" name="name" class="form-input" placeholder="Jane Doe">
+                <input type="text" name="name" class="form-input" placeholder="Jane Doe" value="{{ old('name') }}">
             </label>
 
             <label class="form-group">
                 <span>Email</span>
-                <input type="email" name="email" class="form-input" placeholder="jane@hotel.com">
+                <input type="email" name="email" class="form-input" placeholder="jane@hotel.com" value="{{ old('email') }}">
             </label>
 
             <label class="form-group">
                 <span>Role</span>
                 <select name="role" class="form-input">
-                    <option value="housekeeper">Housekeeper</option>
-                    <option value="head">Department Head</option>
-                    <option value="admin">Admin</option>
+                    <option value="housekeeper" {{ old('role') === 'housekeeper' ? 'selected' : '' }}>Housekeeper</option>
+                    <option value="head" {{ old('role') === 'head' ? 'selected' : '' }}>Department Head</option>
+                    <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Admin</option>
                 </select>
             </label>
 

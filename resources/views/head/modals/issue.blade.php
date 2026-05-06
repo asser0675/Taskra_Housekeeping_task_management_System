@@ -10,6 +10,16 @@
             <input type="hidden" name="_method" value="">
 
             <label class="form-group">
+                <span>Task (Optional)</span>
+                <select name="task_id" class="form-input">
+                    <option value="">Select a task...</option>
+                    @foreach ($tasks as $task)
+                        <option value="{{ $task->id }}">{{ $task->task_type }} - Room {{ $task->room?->room_number ?? '-' }}</option>
+                    @endforeach
+                </select>
+            </label>
+
+            <label class="form-group">
                 <span>Description</span>
                 <textarea name="description" class="form-input" placeholder="Describe the issue..." rows="4"></textarea>
             </label>

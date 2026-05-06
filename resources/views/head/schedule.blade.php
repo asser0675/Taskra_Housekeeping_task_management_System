@@ -38,6 +38,6 @@
             </table>
         </div>
 
-        {{ $tasks->onEachSide(1)->links('pagination::tailwind') }}
+        {{ $tasks->onEachSide(1)->links('pagination::custom') }}
     </div>
 @endsection

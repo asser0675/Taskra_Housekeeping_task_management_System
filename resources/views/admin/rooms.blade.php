@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('page-title', 'Rooms')
-@section('page-subtitle', 'Create, update, and remove rooms from the live database.')
+@section('page-subtitle', 'Create, update, and remove rooms.')
 
 @section('content')
     <div class="card page-card">
@@ -41,7 +41,7 @@
             </table>
         </div>
 
-        {{ $rooms->onEachSide(1)->links('pagination::tailwind') }}
+        {{ $rooms->onEachSide(1)->links('pagination::custom') }}
     </div>
 
     @include('admin.modals.room')

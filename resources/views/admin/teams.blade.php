@@ -44,7 +44,7 @@
             </table>
         </div>
 
-        {{ $teamMembers->onEachSide(1)->links('pagination::tailwind') }}
+        {{ $teamMembers->onEachSide(1)->links('pagination::custom') }}
     </div>
 
     @include('admin.modals.member')

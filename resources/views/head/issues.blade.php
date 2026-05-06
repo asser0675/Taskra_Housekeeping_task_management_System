@@ -46,7 +46,7 @@
             </table>
         </div>
 
-        {{ $issues->onEachSide(1)->links('pagination::tailwind') }}
+        {{ $issues->onEachSide(1)->links('pagination::custom') }}
     </div>
 
     @include('head.modals.issue')

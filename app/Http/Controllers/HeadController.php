@@ -56,8 +56,9 @@ class HeadController extends Controller
     public function issues()
     {
         $issues = Issue::with(['task.room', 'reporter'])->latest()->paginate(5);
+        $tasks = Task::with('room')->get();
 
-        return view('head.issues', compact('issues'));
+        return view('head.issues', compact('issues', 'tasks'));
     }
 
     public function reports()

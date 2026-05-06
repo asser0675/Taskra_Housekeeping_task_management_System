@@ -69,6 +69,6 @@
     </div>
 
     <div style="margin-top: 20px; display: flex; justify-content: center;">
-        {{ $tasks->onEachSide(1)->links('pagination::tailwind') }}
+        {{ $tasks->onEachSide(1)->links('pagination::custom') }}
     </div>
 @endsection
