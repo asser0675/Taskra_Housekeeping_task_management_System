@@ -1,0 +1,201 @@
+/* ===== GLOBAL THEME ===== */
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f6f4fb;
+}
+
+/* ===== SIDEBAR ===== */
+
+.sidebar {
+  width: 256px;
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  padding: 24px;
+}
+
+.nav-item {
+  padding: 12px 16px;
+  border-radius: 16px;
+  color: #6a7282;
+  text-decoration: none;
+  display: block;
+  transition: 0.2s;
+}
+
+.nav-item:hover {
+  background-color: rgba(142, 81, 255, 0.1);
+  color: #8e51ff;
+}
+
+.nav-item.active {
+  background-color: #8e51ff;
+  color: white;
+}
+
+/* ===== MAIN CONTENT ===== */
+
+.main-content {
+  flex: 1;
+  padding: 24px;
+}
+
+/* ===== CARDS (USED IN TASKS) ===== */
+
+.task-card {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid #f3f4f6;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.05);
+  transition: 0.2s;
+}
+
+.task-card:hover {
+  transform: translateY(-2px);
+}
+
+/* ===== STATUS BADGES ===== */
+
+.status {
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status.pending {
+  background: #ffedd4;
+  color: #ca3500;
+}
+
+.status.progress {
+  background: #ede9fe;
+  color: #7008e7;
+}
+
+.status.done {
+  background: #d0fae5;
+  color: #007a55;
+}
+
+/* ===== BUTTONS ===== */
+
+.btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.btn-primary {
+  background: #8e51ff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #7a3ee8;
+}
+
+.btn-success {
+  background: #10b981;
+  color: white;
+}
+
+.btn-success:hover {
+  background: #059669;
+}
+
+/* ===== HEADINGS ===== */
+
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #101828;
+}
+
+.page-subtitle {
+  color: #6a7282;
+  margin-bottom: 20px;
+}
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.05);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.performance-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+/* Additional status-badge styles for view compatibility */
+.status-badge.pending,
+.status-badge.PENDING,
+.status-badge.Pending {
+  background: #ffedd4;
+  color: #ca3500;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+.status-badge.in-progress,
+.status-badge.IN-PROGRESS,
+.status-badge.In\-Progress {
+  background: #ede9fe;
+  color: #7008e7;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+.status-badge.completed,
+.status-badge.COMPLETED,
+.status-badge.Completed {
+  background: #d0fae5;
+  color: #007a55;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+/* Responsive layout adjustments */
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .dashboard-container { flex-direction: column; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .task-table { font-size: 14px; }
+  .sidebar-header .logo { font-size: 20px; }
+}
+
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr; }
+  .nav-item { padding: 10px; font-size: 14px; }
+  .page-title { font-size: 20px; }
+  .form-input { height: 36px; }
+  .task-detail-grid { display: block; }
+  .task-actions { margin-top: 16px; }
+}

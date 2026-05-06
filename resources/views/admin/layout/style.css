@@ -1,0 +1,55 @@
+
+html,
+body {
+    min-height: 100%;
+}
+
+body.admin-body {
+    overflow-x: hidden;
+}
+
+.admin-shell {
+    min-height: 100vh;
+}
+
+.admin-main {
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+.admin-sidebar {
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.admin-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    margin-bottom: 24px;
+}
+
+.page-card {
+    margin-bottom: 0;
+}
+
+.stack-item,
+.table-wrap,
+.form-input,
+.form-textarea {
+    max-width: 100%;
+}
+
+.admin-modal {
+    display: none;
+    padding: 20px;
+
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 1100px) {
+    .admin-sidebar {
+        height: auto;
+    }
+}

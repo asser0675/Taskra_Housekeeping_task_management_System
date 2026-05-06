@@ -1,0 +1,66 @@
+<button class="hamburger-toggle" id="hamburger-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<aside class="sidebar" id="sidebar" style="display:flex; flex-direction:column; height:100vh;">
+    <div>
+        <div class="sidebar-header">
+            <h1 class="logo">Taskra</h1>
+            <p style="font-size: 12px; color: #666; margin: 4px 0 0 0;">Head</p>
+        </div>
+
+        <nav class="navigation">
+            <a href="{{ route('head.dashboard') }}" class="nav-item {{ request()->routeIs('head.dashboard') ? 'active' : '' }}">Dashboard</a>
+            <a href="{{ route('head.schedule') }}" class="nav-item {{ request()->routeIs('head.schedule') ? 'active' : '' }}">Schedule</a>
+            <a href="{{ route('head.tasks') }}" class="nav-item {{ request()->routeIs('head.tasks') ? 'active' : '' }}">Tasks</a>
+            <a href="{{ route('head.team') }}" class="nav-item {{ request()->routeIs('head.team') ? 'active' : '' }}">Team</a>
+            <a href="{{ route('head.issues') }}" class="nav-item {{ request()->routeIs('head.issues') ? 'active' : '' }}">Issues</a>
+            <a href="{{ route('head.reports') }}" class="nav-item {{ request()->routeIs('head.reports') ? 'active' : '' }}">Reports</a>
+        </nav>
+    </div>
+
+    <div style="margin-top:auto;">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <a href="#" onclick="this.closest('form').submit()" class="nav-item logout-link">
+                Logout
+            </a>
+        </form>
+    </div>
+</aside>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.getElementById('hamburger-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+
+    function toggleSidebar() {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+        hamburger.classList.toggle('active');
+    }
+
+    hamburger.addEventListener('click', toggleSidebar);
+    overlay.addEventListener('click', function() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+        hamburger.classList.remove('active');
+    });
+
+    // Close sidebar when a nav item is clicked
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', function() {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+                hamburger.classList.remove('active');
+            }
+        });
+    });
+});
+</script>
