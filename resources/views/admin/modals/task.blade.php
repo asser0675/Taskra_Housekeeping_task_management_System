@@ -5,7 +5,7 @@
             <button type="button" class="admin-modal-close" data-modal-close>&times;</button>
         </div>
 
-        <form method="POST" action="{{ route('admin.tasks.store') }}" class="admin-modal-form" data-modal-form data-default-action="{{ route('admin.tasks.store') }}">
+        <form method="POST" action="{{ route('admin.tasks.store') }}" class="admin-modal-form" data-modal-form data-default-action="{{ route('admin.tasks.store') }}" data-assignee-source="{{ route('task.assignees') }}">
             @csrf
             <input type="hidden" name="_method" value="">
 

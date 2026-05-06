@@ -144,7 +144,9 @@ class AdminController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        return back()->with('success', 'Team member added successfully.');
+        return back()
+            ->with('success', 'Team member added successfully.')
+            ->with('housekeepersChanged', true);
     }
 
     public function updateTeamMember(Request $request, User $user)
@@ -166,7 +168,9 @@ class AdminController extends Controller
 
         $user->save();
 
-        return back()->with('success', 'Team member updated successfully.');
+        return back()
+            ->with('success', 'Team member updated successfully.')
+            ->with('housekeepersChanged', true);
     }
 
     public function destroyTeamMember(User $user)

@@ -8,6 +8,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\HeadController;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -51,6 +52,12 @@ Route::middleware(['auth', 'role:head'])->group(function () {
     Route::delete('/head/issues/{id}', [HeadController::class, 'destroyIssue'])->name('head.issues.destroy');
     Route::get('/head/reports', [HeadController::class, 'reports'])->name('head.reports');
 });
+
+Route::middleware(['auth', 'role:admin,head'])->get('/task-assignees', function () {
+    return response()->json([
+        'housekeepers' => User::where('role', 'housekeeper')->orderBy('name')->get(['id', 'name']),
+    ]);
+})->name('task.assignees');
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');

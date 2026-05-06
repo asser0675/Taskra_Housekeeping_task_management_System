@@ -4,6 +4,52 @@ const toFieldName = (key) => key.replace(/[A-Z]/g, (letter) => `_${letter.toLowe
 
 const getField = (form, fieldName) => form.elements[fieldName] ?? form.querySelector(`[name="${fieldName}"]`);
 
+const refreshAssigneeOptions = async (form) => {
+    const sourceUrl = form.dataset.assigneeSource;
+    const select = form.querySelector('select[name="assigned_to"]');
+
+    if (!sourceUrl || !select) {
+        return;
+    }
+
+    const selectedValue = select.value;
+
+    try {
+        const response = await fetch(sourceUrl, {
+            headers: {
+                Accept: 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            return;
+        }
+
+        const data = await response.json();
+        const housekeepers = Array.isArray(data.housekeepers) ? data.housekeepers : [];
+
+        select.innerHTML = '';
+
+        housekeepers.forEach((housekeeper) => {
+            const option = document.createElement('option');
+            option.value = String(housekeeper.id);
+            option.textContent = housekeeper.name;
+            select.appendChild(option);
+        });
+
+        if (selectedValue) {
+            select.value = String(selectedValue);
+        }
+    } catch (error) {
+        console.error('Unable to refresh assignee options.', error);
+    }
+};
+
+const refreshAllAssigneeOptions = async () => {
+    const forms = document.querySelectorAll('[data-assignee-source]');
+    await Promise.all(Array.from(forms, (form) => refreshAssigneeOptions(form)));
+};
+
 const setFieldValue = (field, value) => {
     if (!field) {
         return;
@@ -48,7 +94,7 @@ const closeModal = (modal) => {
     modal.classList.remove('is-open');
 };
 
-document.addEventListener('click', (event) => {
+document.addEventListener('click', async (event) => {
     const openTrigger = event.target.closest('[data-modal-open]');
 
     if (openTrigger) {
@@ -65,6 +111,8 @@ document.addEventListener('click', (event) => {
         if (!form) {
             return;
         }
+
+        await refreshAssigneeOptions(form);
 
         if (openTrigger.dataset.modalAction) {
             form.action = openTrigger.dataset.modalAction;
@@ -105,4 +153,14 @@ document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
         document.querySelectorAll('.admin-modal.is-open').forEach(closeModal);
     }
+});
+
+window.addEventListener('storage', (event) => {
+    if (event.key === 'housekeepers-changed') {
+        refreshAllAssigneeOptions();
+    }
+});
+
+window.addEventListener('housekeepers-changed', () => {
+    refreshAllAssigneeOptions();
 });

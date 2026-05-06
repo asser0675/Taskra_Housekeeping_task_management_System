@@ -32,6 +32,13 @@
                 </div>
             @endif
 
+            @if (session('housekeepersChanged'))
+                <script>
+                    localStorage.setItem('housekeepers-changed', Date.now().toString());
+                    window.dispatchEvent(new CustomEvent('housekeepers-changed'));
+                </script>
+            @endif
+
             @yield('content')
         </main>
     </div>
