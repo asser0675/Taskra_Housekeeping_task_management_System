@@ -156,29 +156,30 @@ body {
 .status-badge.pending,
 .status-badge.PENDING,
 .status-badge.Pending {
-  background: #ffedd4;
   color: #ca3500;
-  padding: 5px 10px;
-  border-radius: 999px;
   font-weight: 600;
 }
 .status-badge.in-progress,
 .status-badge.IN-PROGRESS,
 .status-badge.In\-Progress {
-  background: #ede9fe;
   color: #7008e7;
-  padding: 5px 10px;
-  border-radius: 999px;
   font-weight: 600;
 }
 .status-badge.completed,
 .status-badge.COMPLETED,
 .status-badge.Completed {
-  background: #d0fae5;
   color: #007a55;
+  font-weight: 600;
+}
+
+/* Bordered pill for interactive badges/buttons */
+button.status-badge,
+.status-badge.is-button,
+.status-badge.button {
   padding: 5px 10px;
   border-radius: 999px;
-  font-weight: 600;
+  border: 1px solid currentColor;
+  background: transparent;
 }
 
 /* Responsive layout adjustments */

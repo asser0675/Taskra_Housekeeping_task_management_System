@@ -31,7 +31,7 @@ class HeadController extends Controller
 
     public function tasks()
     {
-        $tasks = Task::with(['room', 'housekeeper'])->latest()->paginate(5);
+        $tasks = Task::select('*')->with(['room', 'housekeeper'])->latest()->paginate(5);
         $rooms = Room::all();
         $staff = User::where('role', 'housekeeper')->get();
 
@@ -41,7 +41,7 @@ class HeadController extends Controller
     public function schedule()
     {
         $rooms = Room::orderBy('room_number')->get();
-        $tasks = Task::with(['room', 'housekeeper'])->where('status', 'pending')->paginate(5);
+        $tasks = Task::select('*')->with(['room', 'housekeeper'])->where('status', 'pending')->paginate(5);
 
         return view('head.schedule', compact('rooms', 'tasks'));
     }
@@ -56,9 +56,8 @@ class HeadController extends Controller
     public function issues()
     {
         $issues = Issue::with(['task.room', 'reporter'])->latest()->paginate(5);
-        $tasks = Task::with('room')->get();
 
-        return view('head.issues', compact('issues', 'tasks'));
+        return view('head.issues', compact('issues'));
     }
 
     public function reports()
@@ -129,39 +128,26 @@ class HeadController extends Controller
 
     public function storeIssue(Request $request)
     {
-        $request->validate([
-            'task_id' => 'nullable|exists:tasks,id',
-            'description' => 'required|string',
-            'status' => 'required|in:open,in-progress,resolved',
-        ]);
-
-        Issue::create([
-            'task_id' => $request->task_id,
-            'description' => $request->description,
-            'status' => $request->status,
-            'reported_by' => auth()->id(),
-        ]);
-
-        return back()->with('success', 'Issue created successfully.');
+        abort(403, 'Only staff can create issues.');
     }
 
     public function updateIssue(Request $request, $id)
     {
-        $request->validate([
-            'task_id' => 'nullable|exists:tasks,id',
-            'description' => 'required|string',
+        $validated = $request->validate([
             'status' => 'required|in:open,in-progress,resolved',
         ]);
 
         $issue = Issue::findOrFail($id);
 
+        if ($issue->status === 'resolved') {
+            return back()->with('error', 'Resolved issues can no longer be edited.');
+        }
+
         $issue->update([
-            'task_id' => $request->task_id,
-            'description' => $request->description,
-            'status' => $request->status,
+            'status' => $validated['status'],
         ]);
 
-        return back()->with('success', 'Issue updated successfully.');
+        return back()->with('success', 'Issue status updated successfully.');
     }
 
     public function destroyIssue($id)

@@ -1,28 +1,13 @@
 <div class="admin-modal" id="issue-modal">
-    <div class="admin-modal-card admin-modal-large">
+    <div class="admin-modal-card">
         <div class="admin-modal-header">
-            <h3>Issue Form</h3>
+            <h3>Update Issue Status</h3>
             <button type="button" class="admin-modal-close" data-modal-close>&times;</button>
         </div>
 
-        <form method="POST" action="{{ route('head.issues.store') }}" class="admin-modal-form" data-modal-form data-default-action="{{ route('head.issues.store') }}">
+        <form method="POST" action="" class="admin-modal-form" data-modal-form>
             @csrf
             <input type="hidden" name="_method" value="">
-
-            <label class="form-group">
-                <span>Task (Optional)</span>
-                <select name="task_id" class="form-input">
-                    <option value="">Select a task...</option>
-                    @foreach ($tasks as $task)
-                        <option value="{{ $task->id }}">{{ $task->task_type }} - Room {{ $task->room?->room_number ?? '-' }}</option>
-                    @endforeach
-                </select>
-            </label>
-
-            <label class="form-group">
-                <span>Description</span>
-                <textarea name="description" class="form-input" placeholder="Describe the issue..." rows="4"></textarea>
-            </label>
 
             <label class="form-group">
                 <span>Status</span>
@@ -35,7 +20,7 @@
 
             <div class="modal-actions">
                 <button type="button" class="btn-secondary" data-modal-close>Cancel</button>
-                <button type="submit" class="btn-primary">Save Issue</button>
+                <button type="submit" data-confirm="Update issue status?" class="btn-primary">Save Status</button>
             </div>
         </form>
     </div>

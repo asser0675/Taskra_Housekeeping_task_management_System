@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('page-title', 'Settings')
-@section('page-subtitle', 'Persist hotel-wide preferences directly in the database.')
+@section('page-subtitle', 'Configure hotel-wide preferences.')
 
 @section('content')
     <form method="POST" action="{{ route('admin.settings.update') }}" class="card settings-form">
@@ -56,6 +56,6 @@
             </label>
         </div>
 
-        <button type="submit" class="btn-primary">Save Settings</button>
+        <button type="submit" data-confirm="Save these settings?" class="btn-primary">Save Settings</button>
     </form>
 @endsection

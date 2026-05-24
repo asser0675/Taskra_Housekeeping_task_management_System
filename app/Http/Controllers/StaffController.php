@@ -8,7 +8,7 @@ class StaffController extends Controller
 {
     public function dashboard()
     {
-        $allTasks = \App\Models\Task::with('room')
+        $allTasks = \App\Models\Task::select('*')->with('room')
             ->where('assigned_to', auth()->id())
             ->get();
 
@@ -19,7 +19,7 @@ class StaffController extends Controller
             'completed' => $allTasks->where('status', 'completed')->count(),
         ];
 
-        $tasks = \App\Models\Task::with('room')
+        $tasks = \App\Models\Task::select('*')->with('room')
             ->where('assigned_to', auth()->id())
             ->latest()
             ->paginate(5);

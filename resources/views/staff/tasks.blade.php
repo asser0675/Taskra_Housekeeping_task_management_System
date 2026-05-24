@@ -15,6 +15,7 @@
                         <th>Room</th>
                         <th>Priority</th>
                         <th>Status</th>
+                        <th>Deadline</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -37,6 +38,7 @@
                                     {{ strtoupper(str_replace('-', ' ', $task->status)) }}
                                 </span>
                             </td>
+                            <td>{{ optional($task->deadline)->format('M d, Y') ?? '-' }}</td>
                             <td class="table-actions" style="display: flex; gap: 8px; flex-wrap: wrap;">
                                 @if($task->status == 'pending')
                                     <form method="POST" action="{{ route('staff.tasks.update', $task->id) }}" style="display: inline;">
@@ -58,7 +60,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" style="text-align:center; padding:40px 20px; color:#6a7282;">
+                            <td colspan="6" style="text-align:center; padding:40px 20px; color:#6a7282;">
                                 No tasks assigned yet.
                             </td>
                         </tr>

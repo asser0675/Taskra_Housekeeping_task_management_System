@@ -38,5 +38,7 @@
 
 </div>
 
+@include('components.confirm-modal')
+
 </body>
 </html>

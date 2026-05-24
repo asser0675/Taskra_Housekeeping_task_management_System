@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('page-title', 'Tasks')
-@section('page-subtitle', 'Manage housekeeping tasks from the dashboard or this dedicated page.')
+@section('page-subtitle', 'Manage housekeeping tasks.')
 
 @section('content')
     <div class="card page-card">
@@ -42,10 +42,10 @@
                             <td>{{ optional($task->deadline)->format('M d, Y') ?? '-' }}</td>
                             <td class="table-actions">
                                 <button type="button" class="text-link" data-modal-open="task-modal" data-modal-action="{{ route('admin.tasks.update', $task) }}" data-modal-method="PUT" data-room-id="{{ $task->room_id }}" data-assigned-to="{{ $task->assigned_to }}" data-task-type="{{ $task->task_type }}" data-status="{{ $task->status }}" data-priority="{{ $task->priority }}" data-deadline="{{ optional($task->deadline)->format('Y-m-d') }}">Edit</button>
-                                <form method="POST" action="{{ route('admin.tasks.destroy', $task) }}" onsubmit="return confirm('Delete this task?')" style="display: inline;">
+                                <form method="POST" action="{{ route('admin.tasks.destroy', $task) }}" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-danger">Delete</button>
+                                    <button type="submit" data-confirm="Delete this task?" class="text-danger">Delete</button>
                                 </form>
                             </td>
                         </tr>

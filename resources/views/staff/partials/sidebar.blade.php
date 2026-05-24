@@ -1,4 +1,4 @@
-<button class="hamburger-toggle" id="hamburger-toggle">
+<button type="button" class="hamburger-toggle" id="hamburger-toggle" aria-label="Toggle navigation" aria-controls="sidebar" aria-expanded="false">
     <span></span>
     <span></span>
     <span></span>
@@ -16,15 +16,16 @@
         <nav class="navigation">
             <a href="{{ route('staff.dashboard') }}" class="nav-item {{ request()->routeIs('staff.dashboard') ? 'active' : '' }}">Dashboard</a>
             <a href="{{ route('staff.tasks') }}" class="nav-item {{ request()->routeIs('staff.tasks') ? 'active' : '' }}">My Tasks</a>
+            <a href="{{ route('staff.issues') }}" class="nav-item {{ request()->routeIs('staff.issues') ? 'active' : '' }}">My Issues</a>
         </nav>
     </div>
 
     <div style="margin-top:auto;">
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <a href="#" onclick="this.closest('form').submit()" class="nav-item logout-link">
+            <button type="submit" data-confirm="Are you sure you want to logout?" class="nav-item logout-link" style="width:100%; text-align:left; background:none; border:none;">
                 Logout
-            </a>
+            </button>
         </form>
     </div>
 </aside>
@@ -39,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
         sidebar.classList.toggle('open');
         overlay.classList.toggle('open');
         hamburger.classList.toggle('active');
+        hamburger.setAttribute('aria-expanded', sidebar.classList.contains('open') ? 'true' : 'false');
     }
 
     hamburger.addEventListener('click', toggleSidebar);
@@ -46,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
         sidebar.classList.remove('open');
         overlay.classList.remove('open');
         hamburger.classList.remove('active');
+        hamburger.setAttribute('aria-expanded', 'false');
     });
 
     // Close sidebar when a nav item is clicked
@@ -55,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 sidebar.classList.remove('open');
                 overlay.classList.remove('open');
                 hamburger.classList.remove('active');
+                hamburger.setAttribute('aria-expanded', 'false');
             }
         });
     });

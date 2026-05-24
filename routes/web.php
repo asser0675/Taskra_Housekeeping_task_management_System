@@ -7,11 +7,18 @@ use App\Http\Controllers\StaffController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\HeadController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\LoadingController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 
 Route::get('/', function () {
     return redirect('/login');
+});
+
+// Loading Screen Routes
+Route::middleware('auth')->group(function () {
+    Route::get('/loading', [LoadingController::class, 'show'])->name('loading');
+    Route::get('/api/dashboard-url', [LoadingController::class, 'getDashboardUrl'])->name('api.dashboard-url');
 });
 
 Route::middleware('auth')->get('/dashboard', function () {
@@ -47,7 +54,6 @@ Route::middleware(['auth', 'role:head'])->group(function () {
     Route::get('/head/schedule', [HeadController::class, 'schedule'])->name('head.schedule');
     Route::get('/head/team', [HeadController::class, 'team'])->name('head.team');
     Route::get('/head/issues', [HeadController::class, 'issues'])->name('head.issues');
-    Route::post('/head/issues', [HeadController::class, 'storeIssue'])->name('head.issues.store');
     Route::put('/head/issues/{id}', [HeadController::class, 'updateIssue'])->name('head.issues.update');
     Route::delete('/head/issues/{id}', [HeadController::class, 'destroyIssue'])->name('head.issues.destroy');
     Route::get('/head/reports', [HeadController::class, 'reports'])->name('head.reports');
@@ -77,7 +83,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::delete('/teams/{user}', [AdminController::class, 'destroyTeamMember'])->name('teams.destroy');
 
     Route::get('/issues', [AdminController::class, 'issues'])->name('issues');
-    Route::post('/issues', [AdminController::class, 'storeIssue'])->name('issues.store');
     Route::put('/issues/{issue}', [AdminController::class, 'updateIssue'])->name('issues.update');
     Route::delete('/issues/{issue}', [AdminController::class, 'destroyIssue'])->name('issues.destroy');
 
@@ -103,6 +108,9 @@ Route::middleware(['auth', 'role:housekeeper'])->group(function () {
 
     Route::get('/staff/issues/create', [IssueController::class, 'create'])->name('staff.issues.create');
     Route::post('/staff/issues/store', [IssueController::class, 'store'])->name('staff.issues.store');
+    Route::get('/staff/issues', [IssueController::class, 'index'])->name('staff.issues');
+    Route::put('/staff/issues/{issue}', [IssueController::class, 'update'])->name('staff.issues.update');
+    Route::delete('/staff/issues/{issue}', [IssueController::class, 'destroy'])->name('staff.issues.destroy');
 
     Route::get('/staff/notifications', [NotificationController::class, 'index'])->name('staff.notifications');
 });

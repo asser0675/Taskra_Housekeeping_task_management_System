@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('page-title', 'Teams')
-@section('page-subtitle', 'Create and maintain the user accounts that power the hotel workflow.')
+@section('page-subtitle', 'Create and maintain the user accounts.')
 
 @section('content')
     <div class="card page-card">
@@ -30,10 +30,10 @@
                             <td>{{ $member->created_at?->format('M d, Y') }}</td>
                             <td class="table-actions">
                                 <button type="button" class="text-link" data-modal-open="member-modal" data-modal-action="{{ route('admin.teams.update', $member) }}" data-modal-method="PUT" data-name="{{ $member->name }}" data-email="{{ $member->email }}" data-role="{{ $member->role }}">Edit</button>
-                                <form method="POST" action="{{ route('admin.teams.destroy', $member) }}" onsubmit="return confirm('Delete this team member?')">
+                                    <form method="POST" action="{{ route('admin.teams.destroy', $member) }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-danger">Delete</button>
+                                        <button type="submit" data-confirm="Delete this team member?" class="text-danger">Delete</button>
                                 </form>
                             </td>
                         </tr>

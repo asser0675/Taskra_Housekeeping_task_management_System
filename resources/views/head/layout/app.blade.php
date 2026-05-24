@@ -42,5 +42,8 @@
             @yield('content')
         </main>
     </div>
+
+    @include('components.confirm-modal')
+
 </body>
 </html>

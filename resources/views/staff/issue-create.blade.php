@@ -7,7 +7,7 @@
     <div class="card page-card">
         <div class="card-header">
             <h2>Report an Issue</h2>
-            <a href="{{ route('staff.tasks') }}" class="text-link">Back to Tasks</a>
+            <a href="{{ $backUrl ?? route('staff.tasks') }}" class="text-link">Back</a>
         </div>
 
         <form method="POST" action="{{ route('staff.issues.store') }}" style="display: flex; flex-direction: column; gap: 16px;">
@@ -15,12 +15,20 @@
 
             <div class="form-group">
                 <label for="task_id" class="input-label">Task</label>
-                <select name="task_id" id="task_id" class="form-input" style="height: 48px;">
-                    <option value="">Select a task (optional)</option>
-                    @foreach ($tasks as $task)
-                        <option value="{{ $task->id }}">{{ $task->task_type }} - Room {{ $task->room?->room_number ?? '-' }}</option>
-                    @endforeach
-                </select>
+
+                @if (!empty($selectedTask))
+                    <input type="hidden" name="task_id" value="{{ $selectedTask->id }}">
+                    <div class="form-input" style="height: 48px; display:flex; align-items:center;">
+                        {{ $selectedTask->task_type }} - Room {{ $selectedTask->room?->room_number ?? '-' }}
+                    </div>
+                @else
+                    <select name="task_id" id="task_id" class="form-input" style="height: 48px;" required>
+                        <option value="">Select a task</option>
+                        @foreach ($tasks as $task)
+                            <option value="{{ $task->id }}" {{ (string)request('task_id') === (string)$task->id ? 'selected' : '' }}>{{ $task->task_type }} - Room {{ $task->room?->room_number ?? '-' }}</option>
+                        @endforeach
+                    </select>
+                @endif
             </div>
 
             <div class="form-group">
@@ -29,8 +37,8 @@
             </div>
 
             <div style="display: flex; gap: 12px; margin-top: 8px;">
-                <button type="submit" class="btn-primary" style="width: auto; flex: 1;">Submit Issue</button>
-                <a href="{{ route('staff.tasks') }}" class="btn-outline" style="width: auto; flex: 1; display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">Cancel</a>
+                <button type="submit" data-confirm="Submit this issue?" class="btn-primary" style="width: auto; flex: 1;">Submit Issue</button>
+                <a href="{{ $backUrl ?? route('staff.tasks') }}" class="btn-outline" style="width: auto; flex: 1; display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">Cancel</a>
             </div>
         </form>
     </div>

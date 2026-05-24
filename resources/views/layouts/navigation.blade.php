@@ -45,10 +45,9 @@
 
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <x-dropdown-link href="#"
-                                onclick="event.preventDefault(); this.closest('form').submit();">
+                            <button type="submit" data-confirm="Are you sure you want to logout?" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                 Log Out
-                            </x-dropdown-link>
+                            </button>
                         </form>
                     </x-slot>
 
@@ -96,10 +95,9 @@
 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <x-responsive-nav-link href="#"
-                        onclick="event.preventDefault(); this.closest('form').submit();">
+                    <button type="submit" data-confirm="Are you sure you want to logout?" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                         Log Out
-                    </x-responsive-nav-link>
+                    </button>
                 </form>
 
             </div>

@@ -22,12 +22,12 @@ class AdminController extends Controller
 
         return view('admin.dashboard', array_merge($this->dashboardData(), [
             'settings' => $settings,
-            'rooms' => Room::latest()->take(6)->get(),
+            'rooms' => Room::latest()->take(5)->get(),
             'taskRooms' => Room::orderBy('room_number')->get(),
             'housekeepers' => User::where('role', 'housekeeper')->orderBy('name')->get(),
-            'teamMembers' => User::whereIn('role', ['admin', 'head', 'housekeeper'])->orderBy('name')->take(8)->get(),
-            'issues' => Issue::with(['task.room', 'reporter'])->latest()->take(6)->get(),
-            'tasks' => Task::with(['room', 'housekeeper'])->latest()->take(6)->get(),
+            'teamMembers' => User::whereIn('role', ['admin', 'head', 'housekeeper'])->orderBy('name')->take(5)->get(),
+            'issues' => Issue::with(['task.room', 'reporter'])->latest()->take(5)->get(),
+            'tasks' => Task::select('*')->with(['room', 'housekeeper'])->latest()->take(5)->get(),
             'allUsers' => User::whereIn('role', ['admin', 'head', 'housekeeper'])->orderBy('name')->get(),
         ]));
     }
@@ -75,7 +75,7 @@ class AdminController extends Controller
     {
         return view('admin.tasks', [
             'settings' => $this->settingsRecord(),
-            'tasks' => Task::with(['room', 'housekeeper', 'creator'])->latest()->paginate(5),
+            'tasks' => Task::select('*')->with(['room', 'housekeeper', 'creator'])->latest()->paginate(5),
             'rooms' => Room::orderBy('room_number')->get(),
             'housekeepers' => User::where('role', 'housekeeper')->orderBy('name')->get(),
         ]);
@@ -193,37 +193,27 @@ class AdminController extends Controller
         return view('admin.issues', [
             'settings' => $this->settingsRecord(),
             'issues' => Issue::with(['task.room', 'reporter'])->latest()->paginate(5),
-            'tasks' => Task::with('room')->latest()->get(),
-            'reporters' => User::whereIn('role', ['admin', 'head', 'housekeeper'])->orderBy('name')->get(),
         ]);
     }
 
     public function storeIssue(Request $request)
     {
-        $validated = $request->validate([
-            'task_id' => ['required', 'exists:tasks,id'],
-            'reported_by' => ['required', 'exists:users,id'],
-            'description' => ['required', 'string'],
-            'status' => ['required', Rule::in(['open', 'in-progress', 'resolved'])],
-        ]);
-
-        Issue::create($validated);
-
-        return back()->with('success', 'Issue created successfully.');
+        abort(403, 'Only staff can create issues.');
     }
 
     public function updateIssue(Request $request, Issue $issue)
     {
         $validated = $request->validate([
-            'task_id' => ['required', 'exists:tasks,id'],
-            'reported_by' => ['required', 'exists:users,id'],
-            'description' => ['required', 'string'],
             'status' => ['required', Rule::in(['open', 'in-progress', 'resolved'])],
         ]);
 
-        $issue->update($validated);
+        if ($issue->status === 'resolved') {
+            return back()->with('error', 'Resolved issues can no longer be edited.');
+        }
 
-        return back()->with('success', 'Issue updated successfully.');
+        $issue->update(['status' => $validated['status']]);
+
+        return back()->with('success', 'Issue status updated successfully.');
     }
 
     public function destroyIssue(Issue $issue)
@@ -237,8 +227,8 @@ class AdminController extends Controller
     {
         return view('admin.reports', array_merge($this->dashboardData(), [
             'settings' => $this->settingsRecord(),
-            'recentTasks' => Task::with(['room', 'housekeeper'])->latest()->take(8)->get(),
-            'recentIssues' => Issue::with(['task.room', 'reporter'])->latest()->take(8)->get(),
+            'recentTasks' => Task::with(['room', 'housekeeper'])->latest()->paginate(5, ['*'], 'tasks_page'),
+            'recentIssues' => Issue::with(['task.room', 'reporter'])->latest()->paginate(5, ['*'], 'issues_page'),
             'rooms' => Room::latest()->take(8)->get(),
             'teamMembers' => User::whereIn('role', ['admin', 'head', 'housekeeper'])->orderBy('name')->get(),
         ]));

@@ -21,7 +21,12 @@
                         @forelse ($tasks as $task)
                             <div class="stack-item">
                                 <strong>{{ $task->task_type }}</strong>
-                                <span>Room {{ $task->room?->room_number ?? '-' }} | {{ $task->status }}</span>
+                                <span>
+                                    Room {{ $task->room?->room_number ?? '-' }} | 
+                                    <span class="status-badge {{ $task->status }}">
+                                        {{ strtoupper(str_replace('-', ' ', $task->status)) }}
+                                    </span>
+                                </span>
                             </div>
                         @empty
                             <p>No assigned tasks yet.</p>
@@ -35,7 +40,11 @@
                         @forelse ($issues as $issue)
                             <div class="stack-item">
                                 <strong>{{ $issue->task?->task_type ?? 'Issue' }}</strong>
-                                <span>{{ $issue->status }} | {{ $issue->description }}</span>
+                                <span>
+                                    <span class="status-badge {{ $issue->status }}">
+                                        {{ strtoupper(str_replace('-', ' ', $issue->status)) }}
+                                    </span> | {{ $issue->description }}
+                                </span>
                             </div>
                         @empty
                             <p>No reported issues yet.</p>

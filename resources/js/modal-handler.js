@@ -164,3 +164,119 @@ window.addEventListener('storage', (event) => {
 window.addEventListener('housekeepers-changed', () => {
     refreshAllAssigneeOptions();
 });
+
+/* Confirmation modal handling (elements/forms with data-confirm) */
+const confirmModal = () => document.getElementById('confirm-modal');
+const confirmMessageEl = () => document.getElementById('confirm-modal-message');
+const confirmAcceptBtn = () => document.getElementById('confirm-modal-accept');
+const confirmCancelBtn = () => document.getElementById('confirm-modal-cancel');
+
+let _confirmCallback = null;
+
+const openConfirm = (message, callback) => {
+    const modal = confirmModal();
+
+    if (!modal) {
+        const confirmed = window.confirm(message || 'Are you sure?');
+        if (confirmed && typeof callback === 'function') {
+            callback();
+        }
+        return;
+    }
+
+    if (confirmMessageEl()) {
+        confirmMessageEl().textContent = message || 'Are you sure?';
+    }
+
+    _confirmCallback = callback;
+    modal.classList.add('is-open');
+};
+
+const closeConfirm = () => {
+    const modal = confirmModal();
+    if (!modal) return;
+    modal.classList.remove('is-open');
+    _confirmCallback = null;
+};
+
+document.addEventListener('click', (event) => {
+    if (event.target === confirmAcceptBtn()) {
+        event.preventDefault();
+        const callback = _confirmCallback;
+        closeConfirm();
+        if (typeof callback === 'function') {
+            callback();
+        }
+        return;
+    }
+
+    if (event.target === confirmCancelBtn()) {
+        event.preventDefault();
+        closeConfirm();
+        return;
+    }
+
+    const modal = confirmModal();
+    if (modal && event.target === modal && modal.classList.contains('is-open')) {
+        closeConfirm();
+        return;
+    }
+
+    const trigger = event.target.closest('[data-confirm]');
+    if (!trigger || trigger.dataset.confirmBypassed === '1') {
+        return;
+    }
+
+    if (trigger.dataset.modalOpen) {
+        return;
+    }
+
+    event.preventDefault();
+
+    const message = trigger.dataset.confirm || 'Are you sure?';
+
+    openConfirm(message, () => {
+        const form = trigger.closest('form');
+
+        if (form) {
+            if (trigger.tagName === 'BUTTON' || trigger.tagName === 'INPUT') {
+                trigger.dataset.confirmBypassed = '1';
+                if (typeof form.requestSubmit === 'function') {
+                    form.requestSubmit(trigger);
+                } else {
+                    form.submit();
+                }
+                delete trigger.dataset.confirmBypassed;
+                return;
+            }
+
+            if (typeof form.requestSubmit === 'function') {
+                form.requestSubmit();
+            } else {
+                form.submit();
+            }
+            return;
+        }
+
+        if (trigger.tagName === 'A' && trigger.getAttribute('href')) {
+            window.location.href = trigger.getAttribute('href');
+            return;
+        }
+
+        if (trigger.dataset.confirmCallback) {
+            const fn = window[trigger.dataset.confirmCallback];
+            if (typeof fn === 'function') {
+                fn(trigger);
+            }
+        }
+    });
+});
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+        const modal = confirmModal();
+        if (modal && modal.classList.contains('is-open')) {
+            closeConfirm();
+        }
+    }
+});

@@ -26,7 +26,7 @@
 
             <div class="modal-actions">
                 <button type="button" class="btn-secondary" data-modal-close>Cancel</button>
-                <button type="submit" class="btn-primary">Save Room</button>
+                <button type="submit" data-confirm="Save changes to this room?" class="btn-primary">Save Room</button>
             </div>
         </form>
     </div>

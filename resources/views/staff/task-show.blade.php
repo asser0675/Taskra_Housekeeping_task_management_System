@@ -34,7 +34,9 @@
                 <div class="card">
                     <h4>Status</h4>
                     <p class="pill" style="display: inline-block; padding: 8px 16px; border-radius: 999px; background-color: #ede9fe; color: #7008e7; font-weight: 600;">
-                        {{ ucfirst(str_replace('-', ' ', $task->status)) }}
+                        <span class="status-badge {{ $task->status }}">
+                            {{ strtoupper(str_replace('-', ' ', $task->status)) }}
+                        </span>
                     </p>
 
                     @if($task->assigned_to == auth()->id())
@@ -54,7 +56,7 @@
 
                     <hr style="margin: 16px 0; border: none; border-top: 1px solid #e5e7eb;">
 
-                    <a href="{{ route('staff.issues.create') }}" class="btn-secondary" style="display: block; width: 100%; text-align: center; padding: 12px; border-radius: 14px; background-color: #f3f4f6; color: #4a5565; text-decoration: none; font-weight: 600; transition: all 0.2s;">Report Issue</a>
+                    <a href="{{ route('staff.issues.create', ['task_id' => $task->id, 'back_url' => route('staff.tasks.show', $task->id)]) }}" class="btn-secondary" style="display: block; width: 100%; text-align: center; padding: 12px; border-radius: 14px; background-color: #f3f4f6; color: #4a5565; text-decoration: none; font-weight: 600; transition: all 0.2s;">Report Issue</a>
                 </div>
             </aside>
         </div>

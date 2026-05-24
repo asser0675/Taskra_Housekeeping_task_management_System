@@ -47,11 +47,33 @@
         color: inherit;
         background: none;
         border: none;
-        padding: 0;
+        padding: 6px 10px;
         cursor: pointer;
+        border-radius: 8px;
+        transition: background-color .15s ease, color .15s ease;
     }
 
+    /* Hover highlights only; active page is not visually bordered */
     .page-link:hover {
+        background: rgba(142,81,255,0.08);
+        color: #8e51ff;
+    }
+
+    /* Current page should be emphasized by weight but not a border */
+    .page-link.active {
+        font-weight: 700;
+        background: transparent;
         color: inherit;
+    }
+
+    /* Disabled controls are grayed out and not hoverable */
+    .page-link[disabled],
+    .page-link:disabled,
+    .page-link[aria-disabled="true"] {
+        color: #9ca3af;
+        opacity: 0.85;
+        cursor: default;
+        pointer-events: none;
+        background: none;
     }
 </style>

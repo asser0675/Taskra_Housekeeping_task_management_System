@@ -52,12 +52,12 @@
 
             <label class="form-group">
                 <span>Deadline</span>
-                <input type="date" name="deadline" class="form-input">
+                <input type="date" name="deadline" class="form-input" min="{{ now()->format('Y-m-d') }}">
             </label>
 
             <div class="modal-actions">
                 <button type="button" class="btn-secondary" data-modal-close>Cancel</button>
-                <button type="submit" class="btn-primary">Save Task</button>
+                <button type="submit" data-confirm="Save changes to this task?" class="btn-primary">Save Task</button>
             </div>
         </form>
     </div>

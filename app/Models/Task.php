@@ -19,6 +19,12 @@ class Task extends Model
         'deadline'
     ];
 
+    protected $casts = [
+        'deadline' => 'date',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
     //  Task → Room
     public function room()
     {

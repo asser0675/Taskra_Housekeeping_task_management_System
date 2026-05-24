@@ -44,26 +44,55 @@
     </div>
 
     <div class="reports-grid">
-        <div class="card">
+        <div class="card reports-card">
             <h2>Recent Tasks</h2>
             <div class="stack-list">
                 @forelse ($recentTasks as $task)
-                    <div class="stack-item"><strong>{{ $task->task_type }}</strong><span>{{ $task->status }} | {{ $task->priority ?? '-' }}</span></div>
+                    <div class="stack-item">
+                        <div class="stack-item-main">
+                            <strong>{{ $task->task_type }}</strong>
+                            <p class="stack-item-subtitle">{{ $task->deadline?->format('M d, Y') ?? '-' }}</p>
+                        </div>
+                        <div class="stack-item-badges">
+                            <span class="status-badge {{ $task->status }}">{{ strtoupper(str_replace('-', ' ', $task->status)) }}</span>
+                            <span class="status-badge {{ $task->priority ?? 'Low' }}" style="margin-left:8px">{{ $task->priority ?? '-' }}</span>
+                        </div>
+                    </div>
                 @empty
                     <p>No tasks yet.</p>
                 @endforelse
             </div>
+
+            @if ($recentTasks->hasPages())
+                <div style="margin-top: 18px; display: flex; justify-content: center;">
+                    {{ $recentTasks->onEachSide(1)->links('pagination::custom') }}
+                </div>
+            @endif
         </div>
 
-        <div class="card">
+        <div class="card reports-card">
             <h2>Recent Issues</h2>
             <div class="stack-list">
                 @forelse ($recentIssues as $issue)
-                    <div class="stack-item"><strong>{{ $issue->task?->task_type ?? 'Issue' }}</strong><span>{{ $issue->status }}</span></div>
+                    <div class="stack-item">
+                        <div class="stack-item-main">
+                            <strong>{{ $issue->task?->task_type ?? 'Issue' }}</strong>
+                            <p class="stack-item-subtitle">{{ $issue->task?->room?->room_number ?? 'No room' }}</p>
+                        </div>
+                        <div class="stack-item-badges">
+                            <span class="status-badge {{ $issue->status ?? '' }}">{{ $issue->status }}</span>
+                        </div>
+                    </div>
                 @empty
                     <p>No issues yet.</p>
                 @endforelse
             </div>
+
+            @if ($recentIssues->hasPages())
+                <div style="margin-top: 18px; display: flex; justify-content: center;">
+                    {{ $recentIssues->onEachSide(1)->links('pagination::custom') }}
+                </div>
+            @endif
         </div>
     </div>
 @endsection

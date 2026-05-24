@@ -27,9 +27,17 @@
                             <td>{{ $task->task_type }}</td>
                             <td>Room {{ $task->room?->room_number ?? '-' }}</td>
                             <td>{{ $task->housekeeper?->name ?? '-' }}</td>
-                            <td>{{ ucfirst($task->status) }}</td>
+                            <td>
+                                <span class="status-badge {{ $task->status }}">
+                                    {{ strtoupper(str_replace('-', ' ', $task->status)) }}
+                                </span>
+                            </td>
                             <td>{{ optional($task->deadline)->format('M d, Y') ?? '-' }}</td>
-                            <td>{{ $task->priority ?? '-' }}</td>
+                            <td>
+                                <span class="status-badge {{ $task->priority ?? 'Low' }}">
+                                    {{ $task->priority ?? '-' }}
+                                </span>
+                            </td>
                         </tr>
                     @empty
                         <tr><td colspan="6">No scheduled tasks.</td></tr>

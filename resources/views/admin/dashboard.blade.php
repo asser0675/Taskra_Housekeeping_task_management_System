@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('page-title', 'Dashboard')
-@section('page-subtitle', 'Overview and management controls for hotel operations.')
+@section('page-subtitle', 'Overview and management controls.')
 
 @section('content')
     <!-- Stats Grid -->
@@ -53,9 +53,9 @@
                         <div class="stack-item">
                             <div>
                                 <strong>{{ $task->task_type }}</strong>
-                                <p style="font-size: 12px; color: #666;">Room {{ $task->room?->room_number ?? 'N/A' }} • {{ $task->assigned_to ?? 'Unassigned' }}</p>
+                                <p style="font-size: 12px; color: #666;">Room {{ $task->room?->room_number ?? 'N/A' }} • {{ $task->assigned_to ?? 'Unassigned' }} • {{ $task->deadline?->format('M d, Y') ?? '-' }}</p>
                             </div>
-                            <span class="pill-status">{{ $task->status }}</span>
+                            <span class="status-badge {{ $task->status }}">{{ strtoupper(str_replace('-', ' ', $task->status)) }}</span>
                         </div>
                     @empty
                         <p style="color: #999;">No tasks found.</p>
@@ -73,7 +73,7 @@
                     @forelse ($rooms as $room)
                         <div class="stack-item">
                             <strong>Room {{ $room->room_number }}</strong>
-                            <span>{{ $room->status }}</span>
+                            <span class="status-badge {{ $room->status ?? '' }}">{{ $room->status }}</span>
                         </div>
                     @empty
                         <p style="color: #999;">No rooms available.</p>
@@ -93,7 +93,7 @@
                     @forelse ($issues as $issue)
                         <div class="stack-item">
                             <strong>{{ $issue->task?->task_type ?? 'Issue' }}</strong>
-                            <span>{{ $issue->status }}</span>
+                            <span class="status-badge {{ $issue->status ?? '' }}">{{ $issue->status }}</span>
                         </div>
                     @empty
                         <p style="color: #999;">No issues reported.</p>

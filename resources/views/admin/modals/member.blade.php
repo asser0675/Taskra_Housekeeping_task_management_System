@@ -35,7 +35,7 @@
 
             <div class="modal-actions">
                 <button type="button" class="btn-secondary" data-modal-close>Cancel</button>
-                <button type="submit" class="btn-primary">Save Member</button>
+                <button type="submit" data-confirm="Save changes to this team member?" class="btn-primary">Save Member</button>
             </div>
         </form>
     </div>

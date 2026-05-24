@@ -23,14 +23,16 @@
                     @forelse ($rooms as $room)
                         <tr>
                             <td>{{ $room->room_number }}</td>
-                            <td>{{ $room->status }}</td>
+                            <td>
+                                <span class="status-badge {{ $room->status }}">{{ $room->status }}</span>
+                            </td>
                             <td>{{ $room->created_at?->format('M d, Y') }}</td>
                             <td class="table-actions">
                                 <button type="button" class="text-link" data-modal-open="room-modal" data-modal-action="{{ route('admin.rooms.update', $room) }}" data-modal-method="PUT" data-room-number="{{ $room->room_number }}" data-status="{{ $room->status }}">Edit</button>
-                                <form method="POST" action="{{ route('admin.rooms.destroy', $room) }}" onsubmit="return confirm('Delete this room?')">
+                                <form method="POST" action="{{ route('admin.rooms.destroy', $room) }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-danger">Delete</button>
+                                    <button type="submit" data-confirm="Delete this room?" class="text-danger">Delete</button>
                                 </form>
                             </td>
                         </tr>

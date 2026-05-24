@@ -7,7 +7,6 @@
     <div class="card page-card">
         <div class="card-header">
             <h2>Issues</h2>
-            <button type="button" class="btn-primary" data-modal-open="issue-modal">Report Issue</button>
         </div>
 
         <div class="table-wrap">
@@ -27,15 +26,21 @@
                         <tr>
                             <td>{{ $issue->description }}</td>
                             <td>{{ $issue->task?->task_type ?? '-' }}</td>
-                            <td>{{ ucfirst($issue->status) }}</td>
+                            <td>
+                                <span class="status-badge {{ $issue->status }}">{{ strtoupper(str_replace('-', ' ', $issue->status)) }}</span>
+                            </td>
                             <td>{{ $issue->reporter?->name ?? '-' }}</td>
                             <td>{{ $issue->created_at?->format('M d, Y') }}</td>
                             <td class="table-actions">
-                                <button type="button" class="text-link" data-modal-open="issue-modal" data-modal-action="{{ route('head.issues.update', $issue) }}" data-modal-method="PUT" data-task-id="{{ $issue->task_id }}" data-description="{{ $issue->description }}" data-status="{{ $issue->status }}">Edit</button>
-                                <form method="POST" action="{{ route('head.issues.destroy', $issue) }}" onsubmit="return confirm('Delete this issue?')">
+                                @if ($issue->status !== 'resolved')
+                                    <button type="button" class="text-link" data-modal-open="issue-modal" data-modal-action="{{ route('head.issues.update', $issue) }}" data-modal-method="PUT" data-status="{{ $issue->status }}">Edit</button>
+                                @else
+                                    <span class="muted">Resolved</span>
+                                @endif
+                                <form method="POST" action="{{ route('head.issues.destroy', $issue) }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-danger">Delete</button>
+                                    <button type="submit" data-confirm="Delete this issue?" class="text-danger">Delete</button>
                                 </form>
                             </td>
                         </tr>
